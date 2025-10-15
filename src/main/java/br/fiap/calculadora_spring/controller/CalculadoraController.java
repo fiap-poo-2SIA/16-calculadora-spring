@@ -1,5 +1,6 @@
 package br.fiap.calculadora_spring.controller;
 
+import br.fiap.calculadora_spring.service.CalculadoraService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,20 @@ public class CalculadoraController {
                            @RequestParam String operacao,
                            Model model)
     {
-        BigDecimal resultado = service.calcular(valor1, valor2, operacao);
+        BigDecimal resultado = null;
+        String erro = "";
+
+        try {
+            resultado = service.calcular(valor1, valor2, operacao);
+        }
+        catch(Exception e) {
+            erro = e.getMessage();
+        }
         model.addAttribute("resultado", resultado);
+        model.addAttribute("erro", erro);
+        model.addAttribute("valor1", valor1);
+        model.addAttribute("valor2", valor2);
+        model.addAttribute("operacao", operacao);
         return "index";
     }
 }

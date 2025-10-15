@@ -3,6 +3,7 @@ package br.fiap.calculadora_spring.service;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class CalculadoraService {
@@ -19,7 +20,7 @@ public class CalculadoraService {
                 if(v2.compareTo(BigDecimal.ZERO) == 0) {
                     throw new IllegalArgumentException("Não existe divisão por zero");
                 }
-                yield v1.divide(v2);
+                yield v1.divide(v2, 4, RoundingMode.HALF_UP);
             }
             default -> throw new IllegalArgumentException("Operação inválida");
         };
